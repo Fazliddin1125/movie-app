@@ -1,6 +1,6 @@
 import MuiModal from "@mui/material/Modal"
 import { useInfoStore } from "src/store"
-import { FaPlay, FaTimes } from "react-icons/fa"
+import { FaPause, FaPlay, FaTimes } from "react-icons/fa"
 import { useEffect, useState } from "react"
 import { Element } from 'src/interfaces/app.interface';
 import { log } from "console";
@@ -13,6 +13,7 @@ const Modal = () => {
   const { modal, setModal, currentMovie } = useInfoStore()
   const [trailer, setTrailer] = useState<string>('');
   const [muted, setMuted] = useState<boolean>(true)
+  const [playing, setPlaying] = useState<boolean>(true)
   const base_url = process.env.NEXT_PUBLIC_API_DOMAIN as string;
   const api_key = process.env.NEXT_PUBLIC_API_KEY as string;
   const api = `${base_url}/${currentMovie?.media_type === "tv" ? "tv" : 'movie'}/${currentMovie.id}/videos?api_key=${api_key}&language=en-US`;
@@ -43,11 +44,26 @@ const Modal = () => {
         <button onClick={() => setModal(false)} className="modalButton absolute w-9 h-9 right-5 top-5 !z-40 border-none bg-[#181818]" > <FaTimes /></button>
        
         <div className="relative pt-[55%]" >
-          <ReactPlayer url={`https://www.youtube.com/watch?v=${trailer}`} muted={muted}  width={'100%'} height={'100%'} playing style={{position: 'absolute', top: 0, left: 0}}  />
+          <ReactPlayer 
+          url={`https://www.youtube.com/watch?v=${trailer}`} 
+          muted={muted}  
+          width={'100%'} 
+          height={'100%'} 
+          style={{position: 'absolute', top: 0, left: 0}}
+          playing={playing}  
+          />
           <div className="absolute bottom-10 flex w-full items-center justify-between px-18">
             <div className="flex space-x-2" >
-              <button className="flex items-center gap-x-2  rounded bg-white px-8 py-2 text-xl font-bold text-black transition hover:bg-[#e6e6e6]">
-               Play <FaPlay  className="h-6 w-6 text-black " />
+              <button  onClick={()=>setPlaying(prev => !prev)} className="flex items-center gap-x-2  rounded bg-white px-8 py-2 text-xl font-bold text-black transition hover:bg-[#e6e6e6]">
+               {playing ? (
+                <>
+                  Pause <FaPause className="h-6 w-6 text-black "  />
+                </>
+               ): (
+                <>
+                Play <FaPlay  className="h-6 w-6 text-black " />
+                </>
+               )}
               </button>
               <button className="modalButton " ><BiPlus className="w-6 h-6" /></button>
               <button className="modalButton"> <AiOutlineLike className="w-6 h-6" /> </button>

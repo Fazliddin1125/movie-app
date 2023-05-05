@@ -5,7 +5,7 @@ import Image from "next/image"
 import { image_base } from "../helpers/constants"
 import ReactStars from 'react-stars'
 import { useInfoStore } from "src/store"
-
+import { FaPlay } from "react-icons/fa"
 
 const Hero = ({ trending }: HeroProps): JSX.Element => {
  const [movie, setMovie] = useState<IMovie>({} as IMovie)     
@@ -47,7 +47,7 @@ const Hero = ({ trending }: HeroProps): JSX.Element => {
         </h1>
         <p className="max-w-xs md:max-w-lg lg:max-w-2xl text-xs md:text-lg lg:text-2xl" >{movie?.overview?.slice(0,100)}...</p>
         <div>
-            <button onClick={()=> {handleCurrentMovie()}} className=" bg-white/40 text-black font-bold py-4 px-8 rounded-full w-[200px] h-[56px]" >Watch now</button>
+            <button onClick={()=> {handleCurrentMovie()}} className=" bg-white/40 text-black font-bold py-4 px-8 flex rounded-full items-center justify-center w-[200px] h-[56px]" > <FaPlay  className="  mx-2 " /> Watch now</button>
         </div>
         
     </div>

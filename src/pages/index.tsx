@@ -2,7 +2,7 @@ import { GetServerSideProps } from 'next'
 import Head from 'next/head'
 
 import { useEffect, useContext } from 'react'
-import { Header, Hero, Modal } from 'src/components'
+import { Header, Hero, Modal, SubscriptionPlan } from 'src/components'
 import Row from 'src/components/row/row'
 import { AuthContext } from 'src/context/auth.context'
 import { IMovie } from 'src/interfaces/app.interface'
@@ -16,9 +16,12 @@ import { useInfoStore } from 'src/store'
 export default function Home({ trending, topRated, topTV, popular, documentary, family, comedy }: HomeProps): JSX.Element {
   const { isLoading } = useContext(AuthContext);
   const {modal} = useInfoStore();
+  const subscription = false;
 
+  
   if (isLoading) { return <>{null}</>; }
   else {
+    if(!subscription) return <SubscriptionPlan/>
     return (
       <div className={`relative min-h-screen ${modal && "!h-screen overflow-hidden"}`}>
         <Head>
